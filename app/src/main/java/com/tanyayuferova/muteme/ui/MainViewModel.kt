@@ -8,7 +8,9 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.arch.lifecycle.MutableLiveData
-import com.tanyayuferova.muteme.data.LocationData
+import com.tanyayuferova.muteme.data.Location
+import com.tanyayuferova.muteme.mapList
+import com.tanyayuferova.muteme.toLocation
 import timber.log.Timber
 
 
@@ -18,19 +20,27 @@ import timber.log.Timber
  */
 class MainViewModel @Inject constructor(
     private val locationsRepository: LocationsRepository
-) : ViewModel() {
+) : ViewModel(), LocationsAdapter.Listener {
 
     private val disposes = CompositeDisposable()
-    val favoriteShowsLiveData: MutableLiveData<List<LocationData>> = MutableLiveData()
+    val favoriteShowsLiveData: MutableLiveData<List<Location>> = MutableLiveData()
 
     fun loadLocations() {
         disposes += locationsRepository.getAll()
+            .mapList { it.toLocation() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe (
                 { favoriteShowsLiveData.value = it },
                 { Timber.e(it) }
             )
+    }
+
+    fun onAddLocationClick() {
+
+    }
+
+    override fun onLocationClick(id: Long) {
     }
 
     override fun onCleared() {

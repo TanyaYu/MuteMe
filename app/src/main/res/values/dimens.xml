@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_height_l">48dp</dimen>
+    <dimen name="item_height_m">56dp</dimen>
+    <dimen name="item_height_h">64dp</dimen>
+    <dimen name="item_height_xh">72dp</dimen>
+
+    <dimen name="icon_size_l">16dp</dimen>
+    <dimen name="icon_size_m">24dp</dimen>
+    <dimen name="icon_size_h">32dp</dimen>
+    <dimen name="icon_size_xh">48dp</dimen>
+
+    <dimen name="spacing_l">4dp</dimen>
+    <dimen name="spacing_m">8dp</dimen>
+    <dimen name="spacing_h">16dp</dimen>
+    <dimen name="spacing_xh">24dp</dimen>
+    <dimen name="spacing_xxh">32dp</dimen>
+
+    <dimen name="text_size_xl">10sp</dimen>
+    <dimen name="text_size_l">12sp</dimen>
+    <dimen name="text_size_m">14sp</dimen>
+    <dimen name="text_size_h">16sp</dimen>
+    <dimen name="text_size_xh">20sp</dimen>
+    <dimen name="text_size_xxh">24sp</dimen>
+
+    <dimen name="border_thickness_m">1dp</dimen>
+    <dimen name="border_thickness_h">2dp</dimen>
+
+    <dimen name="action_bar_size">56dp</dimen>
+    <dimen name="action_bar_elevation">4dp</dimen>
+</resources>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MuteMe</string>
+    <string name="main_toolbar_title">Muted locations</string>
 </resources>

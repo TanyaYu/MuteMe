@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_text">#de000000</color>
+    <color name="primary_text_disabled">#61000000</color>
+    <color name="primary_text_inverse">@color/white</color>
+    <color name="primary_text_inverse_disabled">#80ffffff</color>
+    <color name="secondary_text">#8a000000</color>
+    <color name="secondary_text_disabled">#61000000</color>
+    <color name="secondary_text_inverse">@color/white</color>
+</resources>
