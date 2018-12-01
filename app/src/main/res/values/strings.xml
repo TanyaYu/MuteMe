@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MuteMe</string>
-    <string name="main_toolbar_title">Muted locations</string>
+    <string name="main_toolbar_title">Silent Places</string>
+    <string name="location_permission_denied_message">Location permission has been denied</string>
+    <string name="explain_permission_title">Please give access</string>
+    <string name="explain_permission_message">You need to enable location permissions first</string>
+    <string name="location_label">Location #%s</string>
+    <string name="location_icon_content_description">Location icon</string>
+    <string name="location_list_empty_message">Tap + button to add a silent place</string>
 </resources>

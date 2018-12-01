@@ -7,8 +7,8 @@
 
     <dimen name="icon_size_l">16dp</dimen>
     <dimen name="icon_size_m">24dp</dimen>
-    <dimen name="icon_size_h">32dp</dimen>
-    <dimen name="icon_size_xh">48dp</dimen>
+    <dimen name="icon_size_h">40dp</dimen>
+    <dimen name="icon_size_xh">56dp</dimen>
 
     <dimen name="spacing_l">4dp</dimen>
     <dimen name="spacing_m">8dp</dimen>

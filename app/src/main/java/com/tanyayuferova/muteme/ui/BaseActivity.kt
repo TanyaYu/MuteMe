@@ -9,7 +9,7 @@ import dagger.android.support.DaggerAppCompatActivity
  * Date: 11/27/2018
  */
 abstract class BaseActivity : DaggerAppCompatActivity() {
-    abstract val layout: Int //@LayoutRes
+    abstract val layout: Int //todo @LayoutRes
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

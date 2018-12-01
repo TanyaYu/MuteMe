@@ -1,39 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="@string/main_toolbar_title" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/locations"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingTop="@dimen/spacing_m"
-            android:paddingBottom="@dimen/spacing_m"
-            tools:listitem="@layout/row_location" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_location"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="@dimen/spacing_h"
-            android:src="@drawable/ic_add"
-            android:tint="@color/white" />
-    </FrameLayout>
-</LinearLayout>
+            app:title="@string/main_toolbar_title" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/locations"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingTop="@dimen/spacing_m"
+                android:paddingBottom="@dimen/spacing_m"
+                tools:listitem="@layout/row_location" />
+
+            <FrameLayout
+                android:id="@+id/empty_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/spacing_xxh"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:text="@string/location_list_empty_message"
+                    android:textAppearance="@style/Subhead.Secondary" />
+            </FrameLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/add_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="@dimen/spacing_h"
+                android:src="@drawable/ic_add"
+                android:tint="@color/white" />
+        </FrameLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

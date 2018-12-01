@@ -5,6 +5,7 @@ package com.tanyayuferova.muteme.data
  * Date: 11/27/2018
  */
 data class Location(
-    val id: Long,
+    val id: String,
+    val name: String,
     val address: String
 )

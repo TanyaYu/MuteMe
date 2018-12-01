@@ -19,5 +19,5 @@ interface LocationsDao {
     fun insert(location: LocationData)
 
     @Query("DELETE from location where id=:id")
-    fun delete(id: Long)
+    fun delete(id: String)
 }

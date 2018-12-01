@@ -1,4 +1,4 @@
-package com.tanyayuferova.muteme.ui
+package com.tanyayuferova.muteme.business
 
 import android.arch.lifecycle.ViewModel
 import com.tanyayuferova.muteme.data.LocationsRepository
@@ -8,9 +8,11 @@ import io.reactivex.rxkotlin.plusAssign
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.arch.lifecycle.MutableLiveData
+import com.google.android.gms.location.places.Place
 import com.tanyayuferova.muteme.data.Location
-import com.tanyayuferova.muteme.mapList
-import com.tanyayuferova.muteme.toLocation
+import com.tanyayuferova.muteme.data.toLocation
+import com.tanyayuferova.muteme.data.toLocationData
+import com.tanyayuferova.muteme.ui.LocationsAdapter
 import timber.log.Timber
 
 
@@ -34,13 +36,24 @@ class MainViewModel @Inject constructor(
                 { favoriteShowsLiveData.value = it },
                 { Timber.e(it) }
             )
+        //todo возможно стоит брать названия из апи??
     }
 
     fun onAddLocationClick() {
 
     }
 
-    override fun onLocationClick(id: Long) {
+    override fun onLocationClick(id: String) {
+    }
+
+    fun onPlaceSelected(place: Place?) {
+        if (place != null) {
+            locationsRepository.put(place.toLocationData())
+        }
+    }
+
+    fun onLocationSwiped(id: String) {
+        locationsRepository.delete(id)
     }
 
     override fun onCleared() {

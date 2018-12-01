@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.tanyayuferova.muteme.R
 import com.tanyayuferova.muteme.data.Location
@@ -29,6 +30,7 @@ class LocationsAdapter(
     override fun onBindViewHolder(viewHolder: LocationsViewHolder, position: Int) {
         val item = data[position]
         with(viewHolder) {
+            nameView.text = item.name
             addressView.text = item.address
             itemView.setOnClickListener { listener?.onLocationClick(item.id) }
         }
@@ -39,11 +41,17 @@ class LocationsAdapter(
         notifyDataSetChanged()
     }
 
+    fun getItem(position: Int): Location? {
+        return data.getOrNull(position)
+    }
+
     class LocationsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val nameView: TextView = view.findViewById(R.id.name)
         val addressView: TextView = view.findViewById(R.id.address)
+        val iconView: ImageView = view.findViewById(R.id.icon)
     }
 
     interface Listener {
-        fun onLocationClick(id: Long)
+        fun onLocationClick(id: String)
     }
 }

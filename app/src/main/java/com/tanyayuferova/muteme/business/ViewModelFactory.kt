@@ -1,4 +1,4 @@
-package com.tanyayuferova.muteme.ui
+package com.tanyayuferova.muteme.business
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

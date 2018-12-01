@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(rootProject.file('keystore.properties')))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -11,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resValue "string", "google_maps_key", keystoreProperties['GOOGLE_MAPS_API_KEY'] ?: ""
     }
     buildTypes {
         release {
@@ -46,7 +50,8 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     compile 'com.android.support:design:28.0.0'
-
+    compile 'com.google.android.gms:play-services-places:16.0.0'
+    compile 'com.google.android.gms:play-services-location:16.0.0'
     // Reactive permissions
     //    implementation "com.tbruyelle.rxpermissions2:rxpermissions:$rxPermissionVersion"
 

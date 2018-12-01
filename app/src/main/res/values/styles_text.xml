@@ -25,6 +25,10 @@
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
+    <style name="Subhead.Secondary">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
     <style name="Subhead2">
         <item name="android:textSize">@dimen/text_size_h</item>
         <item name="android:fontFamily">sans-serif</item>
@@ -37,6 +41,10 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="Body1.Secondary">
+        <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
     <style name="Body2">

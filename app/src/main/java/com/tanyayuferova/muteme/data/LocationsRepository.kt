@@ -10,4 +10,8 @@ class LocationsRepository @Inject constructor(
     private val locationsDao: LocationsDao
 ) {
     fun getAll() = locationsDao.getAll()
+
+    fun put(data: LocationData) = locationsDao.insert(data)
+
+    fun delete(id: String) = locationsDao.delete(id)
 }

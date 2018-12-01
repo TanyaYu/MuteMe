@@ -1,7 +1,5 @@
-package com.tanyayuferova.muteme
+package com.tanyayuferova.muteme.business
 
-import com.tanyayuferova.muteme.data.Location
-import com.tanyayuferova.muteme.data.LocationData
 import io.reactivex.Flowable
 
 /**
@@ -11,5 +9,3 @@ import io.reactivex.Flowable
 inline fun <T, R> Flowable<out Iterable<T>>.mapList(
     noinline mapper: (T) -> R
 ): Flowable<List<R>> = map { it.map(mapper::invoke) }
-
-fun LocationData.toLocation() = Location(id, address)

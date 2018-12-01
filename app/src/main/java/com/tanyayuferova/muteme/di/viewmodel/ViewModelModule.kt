@@ -2,8 +2,8 @@ package com.tanyayuferova.muteme.di.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.tanyayuferova.muteme.ui.MainViewModel
-import com.tanyayuferova.muteme.ui.ViewModelFactory
+import com.tanyayuferova.muteme.business.MainViewModel
+import com.tanyayuferova.muteme.business.ViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -21,5 +21,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel::class)
-    internal abstract fun postListViewModel(viewModel: MainViewModel): ViewModel
+    internal abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
 }
