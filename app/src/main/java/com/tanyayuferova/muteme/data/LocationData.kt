@@ -12,5 +12,7 @@ import android.arch.persistence.room.PrimaryKey
 data class LocationData (
     @PrimaryKey(autoGenerate = false) var id: String,
     @ColumnInfo(name = "name") var name: String,
-    @ColumnInfo(name = "address") var address: String
+    @ColumnInfo(name = "address") var address: String,
+    @ColumnInfo(name = "lng") var lng: Double,
+    @ColumnInfo(name = "lat") var lat: Double
 )

@@ -18,17 +18,36 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.FrameLayout
 import butterknife.BindView
 import butterknife.OnClick
+import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.places.Places
 import com.google.android.gms.location.places.ui.PlacePicker
 import com.tanyayuferova.muteme.business.MainViewModel
+import com.tanyayuferova.muteme.business.geofence.Geofencing
 import com.tanyayuferova.muteme.data.Location
 import timber.log.Timber
 
 
-class MainActivity : BaseActivity(), LocationsAdapter.Listener {
+class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.OnConnectionFailedListener {
+    override fun onConnectionFailed(p0: ConnectionResult) {
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val googleApiClient by lazy {
+        GoogleApiClient.Builder(this)
+            .addApi(LocationServices.API)
+            .addApi(Places.GEO_DATA_API)
+            .enableAutoManage(this, this)
+            .build()
+    }
+    private val geofencing: Geofencing
+    get() = Geofencing(this, googleApiClient)
+
     override val layout: Int = R.layout.activity_main
     lateinit var viewModel: MainViewModel
     //todo fix view model
@@ -77,6 +96,8 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener {
         val isEmpty = data.isNullOrEmpty()
         emptyView.setGone(!isEmpty)
         locationsView.setGone(isEmpty)
+
+        viewModel.updateGeofences(geofencing, isPermissionGranted(ACCESS_FINE_LOCATION))
     }
 
     @OnClick(R.id.add_location)

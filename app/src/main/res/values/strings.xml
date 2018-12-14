@@ -7,4 +7,7 @@
     <string name="location_label">Location #%s</string>
     <string name="location_icon_content_description">Location icon</string>
     <string name="location_list_empty_message">Tap + button to add a silent place</string>
+    <string name="silent_mode_activated">Silent mode activated</string>
+    <string name="touch_to_relaunch">Touch to launch the app.</string>
+    <string name="back_to_normal">Back to normal</string>
 </resources>

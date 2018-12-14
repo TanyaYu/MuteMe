@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.arch.lifecycle.MutableLiveData
 import com.google.android.gms.location.places.Place
+import com.tanyayuferova.muteme.business.geofence.Geofencing
 import com.tanyayuferova.muteme.data.Location
 import com.tanyayuferova.muteme.data.toLocation
 import com.tanyayuferova.muteme.data.toLocationData
@@ -22,6 +23,8 @@ import timber.log.Timber
  */
 class MainViewModel @Inject constructor(
     private val locationsRepository: LocationsRepository
+    //,
+    //private val geofencing: Geofencing
 ) : ViewModel(), LocationsAdapter.Listener {
 
     private val disposes = CompositeDisposable()
@@ -54,6 +57,19 @@ class MainViewModel @Inject constructor(
 
     fun onLocationSwiped(id: String) {
         locationsRepository.delete(id)
+    }
+
+    fun updateGeofences(geofencing: Geofencing, isLocationPermissionGranted: Boolean) {
+        disposes += locationsRepository.getAll()
+            .firstOrError()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            //.subscribe(geofencing::updateGeofencesList, Timber::e)
+            .subscribe( { list ->
+                geofencing.updateGeofencesList(list)
+                if(isLocationPermissionGranted) geofencing.registerAllGeofences()
+                else geofencing.unRegisterAllGeofences()
+            }, Timber::e)
     }
 
     override fun onCleared() {
