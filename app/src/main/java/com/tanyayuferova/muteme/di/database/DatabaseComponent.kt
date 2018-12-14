@@ -10,5 +10,4 @@ import javax.inject.Singleton
 //@ApplicationScope
 @Singleton
 @Subcomponent(modules = [DatabaseModule::class])
-interface DatabaseComponent {
-}
+interface DatabaseComponent

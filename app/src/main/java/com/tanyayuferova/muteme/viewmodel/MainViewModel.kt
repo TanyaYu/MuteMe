@@ -1,4 +1,4 @@
-package com.tanyayuferova.muteme.business
+package com.tanyayuferova.muteme.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import com.tanyayuferova.muteme.data.LocationsRepository
@@ -9,12 +9,11 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import android.arch.lifecycle.MutableLiveData
 import com.google.android.gms.location.places.Place
-import com.tanyayuferova.muteme.business.geofence.Geofencing
+import com.tanyayuferova.muteme.geofence.Geofencing
 import com.tanyayuferova.muteme.data.Location
 import com.tanyayuferova.muteme.data.toLocation
 import com.tanyayuferova.muteme.data.toLocationData
 import com.tanyayuferova.muteme.ui.LocationsAdapter
-import timber.log.Timber
 
 
 /**
@@ -23,8 +22,6 @@ import timber.log.Timber
  */
 class MainViewModel @Inject constructor(
     private val locationsRepository: LocationsRepository
-    //,
-    //private val geofencing: Geofencing
 ) : ViewModel(), LocationsAdapter.Listener {
 
     private val disposes = CompositeDisposable()
@@ -35,15 +32,7 @@ class MainViewModel @Inject constructor(
             .mapList { it.toLocation() }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe (
-                { favoriteShowsLiveData.value = it },
-                { Timber.e(it) }
-            )
-        //todo возможно стоит брать названия из апи??
-    }
-
-    fun onAddLocationClick() {
-
+            .subscribe { favoriteShowsLiveData.value = it }
     }
 
     override fun onLocationClick(id: String) {
@@ -64,12 +53,11 @@ class MainViewModel @Inject constructor(
             .firstOrError()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            //.subscribe(geofencing::updateGeofencesList, Timber::e)
-            .subscribe( { list ->
+            .subscribe { list ->
                 geofencing.updateGeofencesList(list)
                 if(isLocationPermissionGranted) geofencing.registerAllGeofences()
                 else geofencing.unRegisterAllGeofences()
-            }, Timber::e)
+            }
     }
 
     override fun onCleared() {

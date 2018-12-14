@@ -1,4 +1,4 @@
-package com.tanyayuferova.muteme.business
+package com.tanyayuferova.muteme.viewmodel
 
 import io.reactivex.Flowable
 

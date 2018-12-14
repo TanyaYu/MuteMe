@@ -15,29 +15,23 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.View
 import android.widget.FrameLayout
-import butterknife.BindView
-import butterknife.OnClick
 import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import com.google.android.gms.common.GooglePlayServicesRepairableException
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.location.places.ui.PlacePicker
-import com.tanyayuferova.muteme.business.MainViewModel
-import com.tanyayuferova.muteme.business.geofence.Geofencing
+import com.tanyayuferova.muteme.viewmodel.MainViewModel
+import com.tanyayuferova.muteme.geofence.Geofencing
 import com.tanyayuferova.muteme.data.Location
-import timber.log.Timber
+import dagger.android.support.DaggerAppCompatActivity
 
 
-class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.OnConnectionFailedListener {
-    override fun onConnectionFailed(p0: ConnectionResult) {
-    }
+class MainActivity : DaggerAppCompatActivity(), LocationsAdapter.Listener, GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private val googleApiClient by lazy {
         GoogleApiClient.Builder(this)
             .addApi(LocationServices.API)
@@ -45,24 +39,18 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.
             .enableAutoManage(this, this)
             .build()
     }
-    private val geofencing: Geofencing
-    get() = Geofencing(this, googleApiClient)
-
-    override val layout: Int = R.layout.activity_main
+    private val geofencing: Geofencing get() = Geofencing(this, googleApiClient)
     lateinit var viewModel: MainViewModel
-    //todo fix view model
     private val locationsAdapter: LocationsAdapter by lazy { LocationsAdapter(this) }
 
-    //todo remove butterknife
-    @BindView(R.id.locations)
     lateinit var locationsView: RecyclerView
-    @BindView(R.id.coordinator)
     lateinit var coordinator: CoordinatorLayout
-    @BindView(R.id.empty_view)
     lateinit var emptyView: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        findViews()
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         initLocationsView()
@@ -71,23 +59,17 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.
         viewModel.loadLocations()
     }
 
+    private fun findViews() {
+        locationsView = findViewById(R.id.locations)
+        coordinator = findViewById(R.id.coordinator)
+        emptyView = findViewById(R.id.empty_view)
+    }
+
     private fun initLocationsView() = with(locationsView) {
         setHasFixedSize(true)
         layoutManager = LinearLayoutManager(context)
         adapter = locationsAdapter
-//        addItemDecoration()
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(parent: RecyclerView, viewHolder1: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                locationsAdapter.getItem(viewHolder.adapterPosition)
-                    ?.let(Location::id)
-                    ?.let(viewModel::onLocationSwiped)
-            }
-        }).attachToRecyclerView(this)
-
+        ItemTouchHelper(LocationsTouchHelper()).attachToRecyclerView(this)
     }
 
     private fun showLocations(data: List<Location>?) {
@@ -100,8 +82,7 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.
         viewModel.updateGeofences(geofencing, isPermissionGranted(ACCESS_FINE_LOCATION))
     }
 
-    @OnClick(R.id.add_location)
-    fun onAddClick() {
+    fun onAddClick(view: View) {
         askForPermission()
     }
 
@@ -149,12 +130,8 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.
         try {
             val intent = PlacePicker.IntentBuilder().build(this)
             startActivityForResult(intent, PLACE_PICKER_REQUEST)
-        } catch (e: GooglePlayServicesRepairableException) {
-            Timber.e("GooglePlayServices Not Available ${e.message}")
-        } catch (e: GooglePlayServicesNotAvailableException) {
-            Timber.e("GooglePlayServices Not Available ${e.message}")
-        } catch (e: Exception) {
-            Timber.e("PlacePicker Exception: ${e.message}")
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -169,9 +146,21 @@ class MainActivity : BaseActivity(), LocationsAdapter.Listener, GoogleApiClient.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PLACE_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
             viewModel.onPlaceSelected(PlacePicker.getPlace(this, data))
-            //todo photos
-            //https://developers.google.com/places/android-sdk/photos
-            //https://stackoverflow.com/questions/46212905/illegalstateexception-while-getting-photo-from-geodataclient-getplacephotos
+        }
+    }
+
+    override fun onConnectionFailed(connectionResult: ConnectionResult) {
+    }
+
+    inner class LocationsTouchHelper : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        override fun onMove(parent: RecyclerView, viewHolder1: RecyclerView.ViewHolder, viewHolder2: RecyclerView.ViewHolder): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            locationsAdapter.getItem(viewHolder.adapterPosition)
+                ?.let(Location::id)
+                ?.let(viewModel::onLocationSwiped)
         }
     }
 

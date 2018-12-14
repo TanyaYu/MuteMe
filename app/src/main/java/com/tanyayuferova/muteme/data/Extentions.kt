@@ -15,7 +15,7 @@ fun LocationData.toLocation() = Location(
 fun Place.toLocationData() = LocationData(
     id = id,
     name = name.toString(),
-    address = address?.toString().orEmpty(), //todo ?: getString(R.string.location_label, placeId)
+    address = address?.toString().orEmpty(),
     lat = latLng.latitude,
     lng = latLng.longitude
 )
